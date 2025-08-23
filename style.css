@@ -1,0 +1,206 @@
+
+  :root{
+    --bg: #0f172a;            /* slate-900 */
+    --panel: #111827;         /* gray-900 */
+    --panel-2: #0b1222;       /* deep */
+    --accent: #8b5cf6;        /* violet-500 */
+    --accent-2:#22d3ee;       /* cyan-400 */
+    --text: #e5e7eb;          /* gray-200 */
+    --muted:#9ca3af;          /* gray-400 */
+    --grid:#1f2937;           /* gray-800 */
+    --today:#10b981;          /* emerald-500 */
+    --sel:#f59e0b;            /* amber-500 */
+    --danger:#ef4444;         /* red-500 */
+    --shadow: 0 10px 25px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,255,255,.04);
+    --radius: 18px;
+    --gap: 14px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    background:
+      radial-gradient(1200px 600px at 10% -10%, rgba(139,92,246,.18), transparent 70%),
+      radial-gradient(900px 400px at 110% 20%, rgba(34,211,238,.14), transparent 65%),
+      linear-gradient(180deg, #0b1023 0%, #0f172a 100%);
+    color:var(--text);
+    display:grid;
+    place-items:center;
+    padding:20px;
+  }
+
+  .app{
+    width:min(1100px, 100%);
+  }
+
+  .toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap: var(--gap);
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .group{
+    display:flex;
+    gap: var(--gap);
+    align-items:center;
+  }
+
+  .title{
+    font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+    font-weight:700;
+    letter-spacing:.3px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .title small{
+    font-weight:500; color:var(--muted); letter-spacing:.2px;
+  }
+
+  .control, select, input[type="month"]{
+    background: linear-gradient(180deg, #0e152d 0%, #0b1222 100%);
+    color:var(--text);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:12px;
+    padding:10px 14px;
+    font-weight:600;
+    letter-spacing:.2px;
+    box-shadow: var(--shadow);
+    cursor:pointer;
+    transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+    user-select:none;
+  }
+  .control:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.12); }
+  .control:active{ transform: translateY(0); }
+  .control.accent{ background: linear-gradient(180deg, #4630b5, #7c3aed); }
+  .control.ghost{ background: #0b1222; }
+  .control.warn{ background: linear-gradient(180deg, #14532d, #065f46); }
+  .control.danger{ background: linear-gradient(180deg, #7f1d1d, #991b1b); }
+
+  /* Flip container */
+  .calendar-shell{
+    perspective: 1600px;
+  }
+  .flip{
+    position:relative;
+    width:100%;
+    background: radial-gradient(120% 160% at 10% -10%, rgba(139,92,246,.08), transparent 60%),
+                linear-gradient(180deg, #0b1222, #0b1222);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow:hidden;
+  }
+  .flip-inner{
+    position:relative;
+    transform-style: preserve-3d;
+    transition: transform .68s cubic-bezier(.22,.75,.2,1);
+    min-height: 560px;
+  }
+  @media (max-width: 640px){
+    .flip-inner{ min-height:520px; }
+  }
+  .face{
+    position:absolute; inset:0;
+    backface-visibility: hidden;
+    padding: 18px;
+    display:flex; flex-direction:column; gap:18px;
+  }
+  .face.back{ transform: rotateY(180deg); }
+
+  /* Calendar grid */
+  .weekdays, .grid{
+    display:grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+  .weekdays div{
+    text-align:center;
+    font-size:.78rem;
+    color:var(--muted);
+    padding:8px 0;
+    border-radius:10px;
+    background: linear-gradient(180deg, #0f1a36, #0c152b);
+    border:1px solid rgba(255,255,255,.04);
+  }
+  .day{
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.06);
+    background: linear-gradient(180deg, #0f1a36, #0b1222);
+    min-height: 84px;
+    display:flex; flex-direction:column;
+    padding:10px;
+    position:relative;
+    transition: transform .12s ease, border-color .2s ease, background .2s ease;
+    cursor:pointer;
+    outline:none;
+  }
+  .day:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,.12)}
+  .day:focus-visible{ box-shadow: 0 0 0 3px rgba(139,92,246,.45) }
+  .day.other-month{ opacity:.45 }
+  .day .num{
+    font-weight:700; font-size:.95rem; letter-spacing:.25px;
+    display:flex; gap:8px; align-items:center;
+  }
+  .dot{
+    width:6px; height:6px; border-radius:50%;
+    background: var(--accent-2);
+    margin-left:6px;
+  }
+  .day .note{
+    font-size:.78rem; color:var(--muted); margin-top:6px;
+    line-height:1.25; max-height: 2.55em; overflow:hidden;
+    text-overflow: ellipsis;
+  }
+  .day.today{ border-color: rgba(16,185,129,.6) }
+  .badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:.72rem; font-weight:700; color:#052e2b;
+    background: linear-gradient(180deg, #34d399, #10b981);
+    padding:3px 8px; border-radius:999px;
+  }
+  .day.selected{
+    outline: 2px solid var(--sel);
+  }
+
+  /* Footer */
+  .footer{
+    display:flex; justify-content:space-between; align-items:center;
+    gap:12px; flex-wrap:wrap;
+    padding: 12px 16px;
+    border-top:1px dashed rgba(255,255,255,.08);
+    background: linear-gradient(180deg, rgba(255,255,255,.02), transparent);
+    border-bottom-left-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
+  }
+  .meta{ color:var(--muted); font-size:.9rem }
+  .kbd{
+    background:#0b1222; border:1px solid rgba(255,255,255,.12);
+    border-bottom-width:3px;
+    padding: 2px 6px; border-radius:6px; font-weight:700; font-size:.8rem;
+  }
+
+  /* Select styles */
+  .pickers{
+    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+  }
+  select{
+    appearance:none;
+    padding-right:36px;
+    background-image:
+      linear-gradient(45deg, transparent 50%, #9ca3af 50%),
+      linear-gradient(135deg, #9ca3af 50%, transparent 50%),
+      linear-gradient(to right, transparent, transparent);
+    background-position:
+      calc(100% - 18px) 50%,
+      calc(100% - 12px) 50%,
+      100% 0;
+    background-size:6px 6px, 6px 6px, 2.5em 2.5em;
+    background-repeat:no-repeat;
+  }
+
+  /* Small helper tooltip */
+  .tip{
+    font-size:.8rem; color:var(--muted);
+  }

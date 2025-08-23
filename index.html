@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flip Calendar App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app" aria-live="polite">
+        <div class="toolbar">
+            <div class="title" id="title">
+                <span id="titleText">Calendar</span>
+                <small id="subtitle"></small>
+            </div>
+            <div class="group">
+                <button class="control ghost" id="prevBtn" aria-label="Previous month">◀ Prev</button>
+                <button class="control accent" id="flipBtn" aria-label="Flip to next month">⤾ Flip</button>
+                <button class="control ghost" id="nextBtn" aria-label="Next month">Next ▶</button>
+                <button class="control warn" id="todayBtn" aria-label="Jump to today">Today</button>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="pickers">
+                <label class="tip" for="monthPicker">Jump to:</label>
+                <select id="monthPicker" class="control">
+                    <!-- JS populates -->
+                </select>
+                <select id="yearPicker" class="control">
+                    <!-- JS populates -->
+                </select>
+                <button class="control" id="jumpBtn" aria-label="Go to selected month">Go</button>
+            </div>
+            <div class="tip">Double-click a day to add a note. Hold <span class="kbd">Shift</span> when pressing <span
+                    class="kbd">Flip</span> to go backward.</div>
+        </div>
+
+        <div class="calendar-shell">
+            <div class="flip" id="flipCard" aria-label="Calendar pages">
+                <div class="flip-inner" id="flipInner">
+                    <section class="face front" id="front"></section>
+                    <section class="face back" id="back"></section>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="meta" id="metaText"></div>
+                <div class="group">
+                    <button class="control danger" id="clearNotesBtn" title="Remove all saved notes">Clear
+                        Notes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</Body>
+
+</html>
